@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'faculty' %}" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+      <label for="inputAddress">{{field.label}}</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="{{field.placeholder}}" name="{{field.name}}">
+      {{field.errors}}
+    </div>
+    {% endfor %}
+
+    {% for field in address_form %}
+    <div class="form-group">
+      <label for="inputAddress">{{field.label}}</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="{{field.placeholder}}" name="{{field.name}}">
+      {{field.errors}}
+    </div>
+    {% endfor %}
+
+    {% for field in university_form %}
+    <div class="form-group">
+      <label for="inputAddress">{{field.label}}</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="{{field.placeholder}}" name="{{field.name}}">
+      {{field.errors}}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

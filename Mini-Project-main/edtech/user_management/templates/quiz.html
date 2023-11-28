@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for c in object_list %}
+  
+   <div class="container mt-sm-5 my-1">
+    <div class="question ml-sm-5 pl-sm-5 pt-2">
+        <div class="py-2 h5"><b>{{forloop.counter}}. {{c.question}}</b></div>
+        <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+            <form>
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-11">
+                    <input type="radio" name="radio" onclick="add_ans(this);" ques_id="{{c.id}}" ans_id="{{c.option1}}">
+                    
+                    <label class="options">a. {{c.option1}}
+
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-11">
+                    <input type="radio" name="radio" onclick="add_ans(this);" ques_id="{{c.id}}" ans_id="{{c.option2}}">
+                    <label class="options">b. {{c.option2}}
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row"> 
+                <div class="col-1">
+                </div>
+                <div class="col-11">  
+                    <input type="radio" name="radio" onclick="add_ans(this);" ques_id="{{c.id}}" ans_id="{{c.option3}}"> 
+                    <label class="options">c. {{c.option3}}
+                        <span class="checkmark"></span>
+                    </label>
+                </div>    
+            </div>
+
+            <form>
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-11">
+                    <input type="radio" name="radio" onclick="add_ans(this);" ques_id="{{c.id}}" ans_id="{{c.option4}}">
+                    <label class="options">d. {{c.option4}}
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            </form>
+
+        </div>
+    </div>
+    {% comment %} <div class="d-flex align-items-center pt-3">
+        <div id="prev">
+            <button class="btn btn-primary">Previous</button>
+        </div>
+        <div class="ml-auto mr-sm-5">
+            <button class="btn btn-success">Next</button>
+        </div>
+    </div> {% endcomment %}
+</div>
+{% endfor %}
+<div class="row mt-4 mb-5">
+    <div class="col-8">
+    </div>
+    <div class="col-1">
+        <a href="{% url 'content' object_list.0.course.id %}"><button type="button" class="btn btn-light btn-large btn-lg" >Back</button></a></a>
+        
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-success btn-large btn-lg" onclick="send_quiz_data();">Submit</button>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Quiz Review</h5>
+        {% comment %} <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> {% endcomment %}
+      </div>
+      <div class="modal-body">
+        <p id="text_id">Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="mclose();">Close</button>
+        <a href="{% url 'Profile' request.user.id %}">
+            <button type="button" class="btn btn-secondary">Go to profile</button>
+        </a>
+    </div>
+      
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edtech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg text-bg-danger p-3">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home1' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% comment %} <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li> {% endcomment %}
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Menu
+              </a>
+              
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'Profile' request.user.id %}">My Courses</a></li>
+                {% comment %} <li><a class="dropdown-item" href="#"></a></li> {% endcomment %}
+              </ul>
+              
+            </li>
+            {% endif %}
+            {% comment %} <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li> {% endcomment %}
+          </ul>
+          <div class="d-flex">
+            {% if request.user.is_authenticated %}
+            <a style="text-decoration: none; color: black; margin-right:14px" href=" ">{{request.user|title}}</a>
+            <a style="text-decoration: none; color: black" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a style="text-decoration: none; color: black" href="{% url 'login' %}">Login</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="row mt-3">
+      <div class="search-section page-header-style1">
+        <div class="container">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ message }}
+                  </div>
+              {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+
+    <div class="container mt-5">
+      {% block content %}
+      {% endblock%}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+    var quiz_data = {"course_id": "{{object_list.0.course.id}}"}
+    url = "{% url 'QuizAssesment' %}"
+    function add_ans(el){
+        ques = el.getAttribute("ques_id")
+        ans = el.getAttribute("ans_id")
+        quiz_data[ques] = ans
+    }
+
+    function mclose(){
+      $("#myModal").modal("hide")
+    }
+
+    function send_quiz_data(){
+      console.log(quiz_data)
+
+      $.ajax({
+					url: url,
+					method: "POST",
+					data: quiz_data,
+					success: function(data){
+						if(data.status == "passed"){
+                $("#text_id").text(data.msg)
+								$("#myModal").modal("show")
+						}else{
+              $("#text_id").text(data.msg)
+							$("#myModal").modal("show")
+						}
+					}
+					});
+				}
+
+  function open_og(){
+    document.getElementById("cc").classList.remove("active");
+    document.getElementById("on_id").style.display = "block";
+    document.getElementById("cc_id").style.display = "none";
+    document.getElementById("og").classList.add("active");
+  }
+
+  function open_cc(){
+    document.getElementById("cc").classList.add("active");
+    document.getElementById("on_id").style.display = "none";
+    document.getElementById("cc_id").style.display = "block";
+    document.getElementById("og").classList.remove("active");
+  }
+
+    </script>
+  </body>
+</html> 

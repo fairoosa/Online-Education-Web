@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div>
+    <h1 class="text-center">My courses</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div>
+    <h1 class="text-center"></h1>
+  </div>
+</div>
+
+
+<ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" onclick="open_og();" id="og" style="cursor:pointer">On-going courses</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" onclick="open_cc();" id="cc" style="cursor:pointer">Completed courses</a>
+    </li>
+</ul>
+
+
+<div id="on_id" style="display: block;" class="mt-5">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for c in object_list %}
+      {% if not c.is_completed %}
+      <div class="card" style="width: 25rem;margin-left:12px;">
+          <div class="card-header">{{c.course.course_name}}</div>
+          <div class="card-body">
+            <h5 class="card-title" >Prof. {{c.course.faculty}}</h5>
+            <p class="card-text">University: {{c.course.university}}</p>
+            <p class="card-text">{{c.course.duration}}</p>
+            <a href="{% url 'content' c.course.id %}" class="btn btn-primary">Go to course</a>
+          </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<div id="cc_id" style="display: none;"  class="mt-5">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for c in object_list %}
+      {% if c.is_completed %}
+      <div class="card" style="width: 25rem;margin-left:12px;">
+          <div class="card-header">{{c.course.course_name}}</div>
+          <div class="card-body">
+            <h5 class="card-title" >Prof.{{c.course.faculty}}</h5>
+            <p class="card-text">University: {{c.course.university}}</p>
+            <p class="card-text">{{c.course.duration}}</p>
+            <a href="{% url 'certificate' c.course.id %}" class="btn btn-primary">View Certificate</a>
+          </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

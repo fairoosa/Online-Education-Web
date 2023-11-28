@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="text-center">Congratulation {{request.user.first_name}} {{request.user.last_name}} You have successfully completed the course{{course}}</h3>
+<a href="\media\certificates\{{certificate}}" target="_blank"><h3 class="text-center">Click here to download your certificate</h3></a>
+{% endblock %}
